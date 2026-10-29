@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="CleanPix Video is a browser-based video cleanup tool.">
+<title>CleanPix Video — Video Watermark Cleaner</title>
+<style>
+:root{--bg:#0a0b0e;--panel:#12151b;--panel2:#191d25;--text:#f4f6fa;--muted:#a6adbb;--line:#2a303b;--accent:#b8f36b;--accentText:#10140a;--danger:#ffb4ab}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#20283a 0,transparent 45%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+.wrap{max-width:1080px;margin:auto;padding:28px 20px 60px}.nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:56px}.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.5px}.logo{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--accent);color:#10140a;font-weight:900}.pill{border:1px solid var(--line);border-radius:99px;padding:8px 12px;color:var(--muted);font-size:12px}
+.hero{text-align:center;max-width:760px;margin:0 auto 32px}.eyebrow{color:var(--accent);font-size:12px;letter-spacing:2px;font-weight:800;text-transform:uppercase}.hero h1{font-size:clamp(36px,6vw,64px);line-height:1.03;letter-spacing:-2.7px;margin:16px 0}.hero p{font-size:16px;line-height:1.7;color:var(--muted);max-width:620px;margin:0 auto}
+.grid{display:grid;grid-template-columns:1fr 330px;gap:18px;align-items:start}.panel{background:linear-gradient(180deg,#151922,#101319);border:1px solid var(--line);border-radius:20px;padding:20px;min-width:0}.panel h2{font-size:16px;margin:0 0 5px}.sub{color:var(--muted);font-size:13px;line-height:1.55;margin:0 0 18px}.drop{border:1px dashed #485162;background:#0d1015;border-radius:16px;min-height:230px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;transition:.2s}.drop.drag{border-color:var(--accent);background:#151d10}.uploadIcon{width:54px;height:54px;border-radius:16px;background:#20262f;display:grid;place-items:center;font-size:25px;margin-bottom:14px}.drop strong{font-size:15px}.drop span{color:var(--muted);font-size:12px;margin-top:8px}.btn{border:0;border-radius:11px;padding:12px 16px;font-weight:750;cursor:pointer;font-size:13px;transition:transform .15s,opacity .15s}.btn:hover{transform:translateY(-1px)}.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}.primary{background:var(--accent);color:var(--accentText)}.secondary{background:#252b35;color:var(--text);border:1px solid #353d4a}.btnrow{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.preview{display:none;margin-top:16px}.preview video{width:100%;max-height:420px;background:#050607;border-radius:12px}.filemeta{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:12px;margin:10px 0}.field{margin:18px 0}.field label{display:block;font-size:12px;color:#d6dbe4;font-weight:700;margin-bottom:9px}.select,.num{width:100%;background:#0c0f14;color:var(--text);border:1px solid #333b48;border-radius:10px;padding:11px;font:inherit;font-size:13px}.twocol{display:grid;grid-template-columns:1fr 1fr;gap:10px}.note{background:#171c24;border:1px solid #303745;border-radius:12px;padding:12px;font-size:12px;color:var(--muted);line-height:1.6}.note b{color:var(--text)}.progress{height:6px;background:#272d37;border-radius:99px;overflow:hidden;margin-top:14px;display:none}.bar{height:100%;width:0;background:var(--accent);transition:width .2s}.status{font-size:12px;color:var(--muted);line-height:1.5;margin-top:10px;min-height:18px}.status.error{color:var(--danger)}.status.good{color:var(--accent)}.fineprint{margin:24px auto 0;text-align:center;color:#747d8d;font-size:11px;line-height:1.7;max-width:760px}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}.step{border:1px solid var(--line);border-radius:14px;padding:16px;color:var(--muted);font-size:12px;line-height:1.55}.step strong{display:block;color:var(--text);margin-bottom:6px;font-size:13px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.nav{margin-bottom:38px}.steps{grid-template-columns:1fr}.hero h1{letter-spacing:-1.5px}.wrap{padding:20px 14px 40px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="nav"><div class="brand"><div class="logo">C</div>CleanPix <span style="color:var(--accent)">VIDEO</span></div><div class="pill">Browser-based · No account</div></header>
+  <section class="hero"><div class="eyebrow">VIDEO CLEANUP STUDIO</div><h1>Clean up your video.<br><span style="color:var(--accent)">Keep your story.</span></h1><p>Upload a video and reduce a small corner logo or overlay using a local video-processing filter. Your video is processed in your browser, not uploaded to our server.</p></section>
+  <main class="grid">
+    <section class="panel">
+      <h2>1. Add your video</h2><p class="sub">MP4, MOV, or WebM. Short clips work best for browser processing.</p>
+      <div class="drop" id="drop"><div class="uploadIcon">↥</div><strong>Drag and drop your video here</strong><span>or choose a file from your device</span><div style="margin-top:16px"><button class="btn secondary" id="choose">Choose video</button></div><input id="file" type="file" accept="video/*" hidden></div>
+      <div class="preview" id="preview"><video id="video" controls playsinline></video><div class="filemeta"><span id="filename"></span><span id="filesize"></span></div></div>
+      <div class="progress" id="progress"><div class="bar" id="bar"></div></div><div class="status" id="status" role="status">Ready when you are.</div>
+      <div class="btnrow"><button class="btn primary" id="process" disabled>Clean corner & export</button><button class="btn secondary" id="reset" disabled>Reset</button><a class="btn primary" id="download" hidden download="cleanpix-video.mp4" style="text-decoration:none">Download result</a></div>
+    </section>
+    <aside class="panel">
+      <h2>2. Cleanup settings</h2><p class="sub">Position the cleanup region over a corner watermark.</p>
+      <div class="field"><label for="corner">Watermark corner</label><select class="select" id="corner"><option value="br">Bottom right</option><option value="bl">Bottom left</option><option value="tr">Top right</option><option value="tl">Top left</option></select></div>
+      <div class="field"><label>Region size (% of video dimensions)</label><div class="twocol"><div><label for="w" style="color:var(--muted);font-weight:500">Width</label><input class="num" id="w" type="number" min="3" max="35" value="16"></div><div><label for="h" style="color:var(--muted);font-weight:500">Height</label><input class="num" id="h" type="number" min="3" max="35" value="12"></div></div></div>
+      <div class="field"><label for="strength">Edge feather (pixels)</label><input class="num" id="feather" type="number" min="0" max="30" value="4"></div>
+      <div class="note"><b>Honest limitation</b><br>This free starter uses FFmpeg's <code>delogo</code> filter, not AI inpainting. It estimates/reconstructs pixels around the selected corner region and may leave artifacts, especially over detailed backgrounds. It does not automatically detect a watermark. Use only on videos you own or have permission to edit.</div>
+    </aside>
+  </main>
+  <section class="steps"><div class="step"><strong>01 · Local processing</strong>The selected clip is read by your browser. This demo does not upload the video to a server.</div><div class="step"><strong>02 · Corner cleanup</strong>Choose the corner and approximate watermark size, then run the filter.</div><div class="step"><strong>03 · Export</strong>Preview and download the processed MP4 if the browser has enough memory.</div></section>
+  <p class="fineprint">CleanPix Video is an independent demo. Browser processing speed and supported formats depend on your device. This tool does not remove ownership or copyright restrictions and should only be used with appropriate permission.</p>
+</div>
+<script type="module">
+const $=id=>document.getElementById(id);
+const fileInput=$('file'), drop=$('drop'), video=$('video'), preview=$('preview'), processBtn=$('process'), resetBtn=$('reset'), status=$('status'), progress=$('progress'), bar=$('bar'), download=$('download');
+let currentFile=null, originalUrl=null, outputUrl=null, ffmpeg=null, busy=false;
+function msg(t,type=''){status.textContent=t;status.className='status '+type}
+function fmt(n){if(n<1024*1024)return (n/1024).toFixed(0)+' KB';return (n/1024/1024).toFixed(1)+' MB'}
+function cleanupUrls(){if(originalUrl)URL.revokeObjectURL(originalUrl);if(outputUrl)URL.revokeObjectURL(outputUrl);originalUrl=null;outputUrl=null;download.hidden=true;download.removeAttribute('href')}
+function setFile(f){if(!f)return;if(!f.type.startsWith('video/')){msg('Please choose a valid video file.','error');return}cleanupUrls();currentFile=f;originalUrl=URL.createObjectURL(f);video.src=originalUrl;preview.style.display='block';drop.style.display='none';$('filename').textContent=f.name;$('filesize').textContent=fmt(f.size);processBtn.disabled=false;resetBtn.disabled=false;msg('Video ready. Select the watermark corner and size.','good')}
+$('choose').addEventListener('click',()=>fileInput.click());fileInput.addEventListener('change',e=>setFile(e.target.files[0]));
+for(const ev of ['dragenter','dragover'])drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('drag')});
+for(const ev of ['dragleave','drop'])drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('drag')});
+drop.addEventListener('drop',e=>setFile(e.dataTransfer.files[0]));
+$('reset').addEventListener('click',()=>{if(busy)return;cleanupUrls();currentFile=null;fileInput.value='';video.removeAttribute('src');video.load();preview.style.display='none';drop.style.display='flex';processBtn.disabled=true;resetBtn.disabled=true;bar.style.width='0';progress.style.display='none';msg('Ready when you are.')});
+function loadScript(url){return new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=url;s.onload=resolve;s.onerror=()=>reject(new Error('Could not load FFmpeg browser library. Check your internet connection and reload.'));document.head.appendChild(s)})}
+async function getFFmpeg(){
+ if(ffmpeg)return ffmpeg;
+ msg('Loading the video-processing engine…');
+ await loadScript('https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js');
+ const {createFFmpeg}=FFmpeg;
+ ffmpeg=createFFmpeg({log:false,corePath:'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js',progress:({ratio})=>{bar.style.width=Math.max(0,Math.min(100,Math.round(ratio*100)))+'%'}});
+ await ffmpeg.load();return ffmpeg;
+}
+function escapeName(name){return name.replace(/[^a-zA-Z0-9._-]/g,'_').slice(-90)||'input.mp4'}
+processBtn.addEventListener('click',async()=>{
+ if(!currentFile||busy)return;
+ busy=true;processBtn.disabled=true;resetBtn.disabled=true;download.hidden=true;progress.style.display='block';bar.style.width='0%';
+ try{
+  if(currentFile.size>180*1024*1024)throw new Error('This browser demo is limited to videos around 180 MB or smaller. Try a shorter or smaller clip.');
+  const engine=await getFFmpeg();msg('Preparing video…');
+  const inputName='input_'+escapeName(currentFile.name);const outputName='cleanpix_output.mp4';
+  engine.FS('writeFile',inputName,new Uint8Array(await currentFile.arrayBuffer()));
+  const w=Math.max(3,Math.min(35,Number($('w').value)||16))/100;
+  const h=Math.max(3,Math.min(35,Number($('h').value)||12))/100;
+  const feather=Math.max(0,Math.min(30,Number($('feather').value)||0));
+  const corner=$('corner').value;
+  // Use the uploaded video's real dimensions to calculate integer delogo coordinates.
+  const vw=video.videoWidth, vh=video.videoHeight;
+  if(!vw || !vh) throw new Error('Could not read video dimensions. Try another MP4 file.');
+  const rw=Math.max(8,Math.round(vw*w)), rh=Math.max(8,Math.round(vh*h));
+  let x=vw-rw-2, y=vh-rh-2;
+  if(corner==='bl'){x=2;y=vh-rh-2} if(corner==='tr'){x=vw-rw-2;y=2} if(corner==='tl'){x=2;y=2}
+  const filter=`delogo=x=${x}:y=${y}:w=${rw}:h=${rh}:band=${feather}:show=0`;
+  msg('Processing video locally. Longer videos can take several minutes…');
+  await engine.run('-i',inputName,'-vf',filter,'-c:v','libx264','-preset','ultrafast','-crf','23','-c:a','aac','-b:a','128k','-movflags','+faststart',outputName);
+  const data=engine.FS('readFile',outputName);
+  outputUrl=URL.createObjectURL(new Blob([data.buffer],{type:'video/mp4'}));
+  download.href=outputUrl;download.hidden=false;
+  msg('Processing finished. Preview the result, then download it. This is filter-based cleanup, not AI removal.','good');bar.style.width='100%';
+ }catch(e){console.error(e);msg(e.message||'Processing failed. Try a smaller MP4 video or another browser.','error')}
+ finally{busy=false;processBtn.disabled=!currentFile;resetBtn.disabled=!currentFile}
+});
+window.addEventListener('beforeunload',cleanupUrls);
+</script>
+</body>
+</html>
