@@ -37,6 +37,7 @@
   <section class="steps"><div class="step"><strong>01 · Local processing</strong>The selected clip is read by your browser. This demo does not upload the video to a server.</div><div class="step"><strong>02 · Corner cleanup</strong>Choose the corner and approximate watermark size, then run the filter.</div><div class="step"><strong>03 · Export</strong>Preview and download the processed MP4 if the browser has enough memory.</div></section>
   <p class="fineprint">CleanPix Video is an independent demo. Browser processing speed and supported formats depend on your device. This tool does not remove ownership or copyright restrictions and should only be used with appropriate permission.</p>
 </div>
+<script src="./coi-serviceworker.js"></script>
 <script type="module">
 const $=id=>document.getElementById(id);
 const fileInput=$('file'), drop=$('drop'), video=$('video'), preview=$('preview'), processBtn=$('process'), resetBtn=$('reset'), status=$('status'), progress=$('progress'), bar=$('bar'), download=$('download');
@@ -53,6 +54,7 @@ $('reset').addEventListener('click',()=>{if(busy)return;cleanupUrls();currentFil
 function loadScript(url){return new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=url;s.onload=resolve;s.onerror=()=>reject(new Error('Could not load FFmpeg browser library. Check your internet connection and reload.'));document.head.appendChild(s)})}
 async function getFFmpeg(){
  if(ffmpeg)return ffmpeg;
+ if(!crossOriginIsolated || typeof SharedArrayBuffer==='undefined') throw new Error('Browser isolation is not active yet. Refresh this page once and retry. If it persists, try Chrome desktop.');
  msg('Loading the video-processing engine…');
  await loadScript('https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js');
  const {createFFmpeg}=FFmpeg;
@@ -78,7 +80,7 @@ processBtn.addEventListener('click',async()=>{
   const rw=Math.max(8,Math.round(vw*w)), rh=Math.max(8,Math.round(vh*h));
   let x=vw-rw-2, y=vh-rh-2;
   if(corner==='bl'){x=2;y=vh-rh-2} if(corner==='tr'){x=vw-rw-2;y=2} if(corner==='tl'){x=2;y=2}
-  const filter=`delogo=x=${x}:y=${y}:w=${rw}:h=${rh}:band=${feather}:show=0`;
+  const filter=`delogo=x=${x}:y=${y}:w=${rw}:h=${rh}:show=0`;
   msg('Processing video locally. Longer videos can take several minutes…');
   await engine.run('-i',inputName,'-vf',filter,'-c:v','libx264','-preset','ultrafast','-crf','23','-c:a','aac','-b:a','128k','-movflags','+faststart',outputName);
   const data=engine.FS('readFile',outputName);
